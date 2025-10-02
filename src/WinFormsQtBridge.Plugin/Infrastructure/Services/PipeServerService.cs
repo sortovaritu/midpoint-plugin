@@ -10,7 +10,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
     {
         private const string PipeName = "WinFormsQtBridge.PipeServerService";
         
-        public Func<string, string> OnActionRecieved { get; set; }
+        public Func<string, string> OnActionReceived { get; set; }
 
         public void Start()
         {
@@ -36,7 +36,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
                                     break;
                                 }
 
-                                var response = OnActionRecieved?.Invoke(message);
+                                var response = OnActionReceived?.Invoke(message);
 
                                 await writer.WriteLineAsync(response);
                             }

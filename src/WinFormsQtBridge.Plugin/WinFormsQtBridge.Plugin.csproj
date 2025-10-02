@@ -46,10 +46,21 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Application\Services\BridgeService.cs" />
+        <Compile Include="Application\Services\Interfaces\IBridgeService.cs" />
         <Compile Include="BridgePlugin.cs" />
+        <Compile Include="Common\Models\BridgeAction.cs" />
+        <Compile Include="Common\Models\Enums\ActionType.cs" />
         <Compile Include="Infrastructure\Services\Interfaces\IPipeServerService.cs" />
+        <Compile Include="Infrastructure\Services\Interfaces\IPythonAppService.cs" />
+        <Compile Include="Infrastructure\Services\Interfaces\IWinFormConnectorService.cs" />
         <Compile Include="Infrastructure\Services\PipeServerService.cs" />
+        <Compile Include="Infrastructure\Services\PythonAppService.cs" />
+        <Compile Include="Infrastructure\Services\WinFormConnectorService.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Common\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

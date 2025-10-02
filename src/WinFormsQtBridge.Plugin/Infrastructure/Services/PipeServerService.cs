@@ -2,6 +2,8 @@
 using System.IO;
 using System.IO.Pipes;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using WinFormsQtBridge.Plugin.Common.Models;
 using WinFormsQtBridge.Plugin.Infrastructure.Services.Interfaces;
 
 namespace WinFormsQtBridge.Plugin.Infrastructure.Services
@@ -10,7 +12,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
     {
         private const string PipeName = "WinFormsQtBridge.PipeServerService";
         
-        public Func<string, string> OnActionReceived { get; set; }
+        public Func<BridgeAction, string> OnActionReceived { get; set; }
 
         public void Start()
         {
@@ -36,7 +38,8 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
                                     break;
                                 }
 
-                                var response = OnActionReceived?.Invoke(message);
+                                var action = JsonConvert.DeserializeObject<BridgeAction>(message);
+                                var response = OnActionReceived?.Invoke(action);
 
                                 await writer.WriteLineAsync(response);
                             }

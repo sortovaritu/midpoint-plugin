@@ -1,4 +1,5 @@
 ﻿using WinFormsQtBridge.Plugin.Application.Services.Interfaces;
+using WinFormsQtBridge.Plugin.Common.Models;
 using WinFormsQtBridge.Plugin.Infrastructure.Services.Interfaces;
 
 namespace WinFormsQtBridge.Plugin.Application.Services
@@ -20,7 +21,13 @@ namespace WinFormsQtBridge.Plugin.Application.Services
             _pipeServerService.OnActionReceived = OnActionReceived;
         }
 
-        private string OnActionReceived(string action)
+        public void Start()
+        {
+            _pipeServerService.Start();
+            _pythonAppService.StartPythonApp();
+        }
+
+        private string OnActionReceived(BridgeAction action)
         {
             return string.Empty;
         }

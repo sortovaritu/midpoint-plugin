@@ -1,10 +1,11 @@
 ﻿using System;
+using WinFormsQtBridge.Plugin.Common.Models;
 
 namespace WinFormsQtBridge.Plugin.Infrastructure.Services.Interfaces
 {
     public interface IPipeServerService
     {
-        Func<string, string> OnActionReceived { get; set; }
+        Func<BridgeAction, string> OnActionReceived { get; set; }
         
         void Start();
     }

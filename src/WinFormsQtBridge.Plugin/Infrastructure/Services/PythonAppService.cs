@@ -6,7 +6,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
 {
     public class PythonAppService : IPythonAppService
     {
-        private void StartPythonApp()
+        public void StartPythonApp()
         {
             const string pythonExe = @"python-script\venv\Scripts\python.exe";
             const string scriptPath = @"python-script\main.py";

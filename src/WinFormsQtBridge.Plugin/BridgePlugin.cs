@@ -15,8 +15,9 @@ namespace WinFormsQtBridge.Plugin
         {
             var pythonAppService = new PythonAppService();
             var pipeServerService = new PipeServerService();
-            var winFormConnectorService = new WinFormConnectorService();
+            var winFormConnectorService = new WinFormConnectorService(project);
             var bridgeService = new BridgeService(pipeServerService, pythonAppService, winFormConnectorService);
+            bridgeService.Start();
         }
     }
 }

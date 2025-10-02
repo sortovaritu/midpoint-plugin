@@ -2,6 +2,6 @@
 {
     public interface IPythonAppService
     {
-        
+        void StartPythonApp();
     }
 }

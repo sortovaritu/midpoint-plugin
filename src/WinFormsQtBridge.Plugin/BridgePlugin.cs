@@ -1,4 +1,6 @@
 using IP_Base;
+using WinFormsQtBridge.Plugin.Application.Services;
+using WinFormsQtBridge.Plugin.Infrastructure.Services;
 
 namespace WinFormsQtBridge.Plugin
 {
@@ -11,7 +13,10 @@ namespace WinFormsQtBridge.Plugin
         
         public void Execute(ProjectTreeView project)
         {
-            throw new System.NotImplementedException();
+            var pythonAppService = new PythonAppService();
+            var pipeServerService = new PipeServerService();
+            var winFormConnectorService = new WinFormConnectorService();
+            var bridgeService = new BridgeService(pipeServerService, pythonAppService, winFormConnectorService);
         }
     }
 }

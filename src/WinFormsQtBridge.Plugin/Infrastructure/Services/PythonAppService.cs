@@ -1,14 +1,15 @@
 ﻿using System.Diagnostics;
 using IP_Base;
+using WinFormsQtBridge.Plugin.Infrastructure.Services.Interfaces;
 
 namespace WinFormsQtBridge.Plugin.Infrastructure.Services
 {
-    public class PythonAppService
+    public class PythonAppService : IPythonAppService
     {
         private void StartPythonApp()
         {
-            const string pythonExe = @"C:\Repos\python-winform\.venv\Scripts\python.exe";
-            const string scriptPath = @"C:\Repos\python-winform\main.py";
+            const string pythonExe = @"python-script\venv\Scripts\python.exe";
+            const string scriptPath = @"python-script\main.py";
             
             if (!System.IO.File.Exists(pythonExe))
             {
@@ -29,7 +30,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
             };
 
             var process = Process.Start(psi);

@@ -1,4 +1,5 @@
-﻿using WinFormsQtBridge.Plugin.Application.Services.Interfaces;
+﻿using Newtonsoft.Json;
+using WinFormsQtBridge.Plugin.Application.Services.Interfaces;
 using WinFormsQtBridge.Plugin.Common.Models;
 using WinFormsQtBridge.Plugin.Infrastructure.Services.Interfaces;
 
@@ -29,7 +30,8 @@ namespace WinFormsQtBridge.Plugin.Application.Services
 
         private string OnActionReceived(BridgeAction action)
         {
-            return string.Empty;
+            var json = JsonConvert.SerializeObject(_winFormConnectorService.GetSelectedWell());
+            return json;
         }
     }
 }

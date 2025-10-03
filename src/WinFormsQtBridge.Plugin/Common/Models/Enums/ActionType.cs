@@ -2,7 +2,6 @@
 {
     public enum ActionType
     {
-        GetA,
-        GetB,
+        GetWellLog,
     }
 }

@@ -1,6 +1,6 @@
 import sys
 import win32file
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLineEdit
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QPlainTextEdit
 
 PIPE_NAME = r'\\.\pipe\WinFormsQtBridge.PipeServerService'
 
@@ -20,11 +20,11 @@ def send_message(message):
         response_text = resp.decode('utf-8')
 
 
-        response_edit.setText(response_text)
+        response_edit.setPlainText(response_text)
 
         handle.Close()
     except Exception as e:
-        response_edit.setText(f"Ошибка: {e}")
+        response_edit.setPlainText(f"Ошибка: {e}")
 
 app = QApplication([])
 
@@ -34,19 +34,15 @@ window.setWindowTitle("Qt NamedPipe Client")
 layout = QVBoxLayout()
 
 
-btn1 = QPushButton("Button1")
-btn1.clicked.connect(lambda: send_message("Button1"))
+btn1 = QPushButton("Get WellLog")
+btn1.clicked.connect(lambda: send_message('{ "Action": "Start" }'))
 
-btn2 = QPushButton("Button2")
-btn2.clicked.connect(lambda: send_message("Button2"))
-
-
-response_edit = QLineEdit()
-response_edit.setReadOnly(True)
+response_edit = QPlainTextEdit()
+response_edit.setFixedHeight(100)
+layout.addWidget(response_edit)
 
 
 layout.addWidget(btn1)
-layout.addWidget(btn2)
 layout.addWidget(response_edit)
 
 window.setLayout(layout)

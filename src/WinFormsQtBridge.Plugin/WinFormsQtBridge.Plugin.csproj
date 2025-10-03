@@ -65,10 +65,22 @@
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
+         Other similar extension points exist, see Microsoft.Common.targets. -->
     <Target Name="BeforeBuild">
+        <PropertyGroup>
+            <VenvDir>$(ProjectDir)python-script\venv</VenvDir>
+            <PythonExe>$(ProjectDir)python-script\venv\Scripts\python.exe</PythonExe>
+            <Requirements>$(ProjectDir)python-script\requirements.txt</Requirements>
+            <PyInstallerExe>$(ProjectDir)python-script\venv\Scripts\pyinstaller.exe</PyInstallerExe>
+            <PythonScript>$(ProjectDir)python-script\main.py</PythonScript>
+            <ExeOutputDir>$(ProjectDir)python-script</ExeOutputDir>
+        </PropertyGroup>
+
+        <Exec Command="py -3.12 -m venv &quot;$(VenvDir)&quot;" />
+        <Exec Command="&quot;$(PythonExe)&quot; -m pip install -r &quot;$(Requirements)&quot;" />
+        <Exec Command="&quot;$(PyInstallerExe)&quot; --onefile --noconsole --distpath &quot;$(ExeOutputDir)&quot; --workpath &quot;$(ExeOutputDir)\build&quot; --specpath &quot;$(ExeOutputDir)&quot; &quot;$(PythonScript)&quot;" />
     </Target>
-    <Target Name="AfterBuild">
+    <!-- <Target Name="AfterBuild">
     </Target>
     -->
 

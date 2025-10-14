@@ -404,3 +404,5 @@ venv
 build
 *.exe
 main.spec
+
+sciprj

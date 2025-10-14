@@ -3,9 +3,9 @@ using WinFormsQtBridge.Plugin.Common.Models;
 
 namespace WinFormsQtBridge.Plugin.Infrastructure.Services.Interfaces
 {
-    public interface IPipeServerService
+    public interface IZeroMqServerService
     {
-        Func<BridgeAction, string> OnActionReceived { get; set; }
+        Func<BridgeActionRequest, string> OnActionReceived { get; set; }
         
         void Start();
     }

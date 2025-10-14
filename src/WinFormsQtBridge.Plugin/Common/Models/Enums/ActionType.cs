@@ -3,5 +3,6 @@
     public enum ActionType
     {
         GetWellLog,
+        SetWellLog,
     }
 }

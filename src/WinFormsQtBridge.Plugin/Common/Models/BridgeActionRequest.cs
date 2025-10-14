@@ -2,8 +2,10 @@
 
 namespace WinFormsQtBridge.Plugin.Common.Models
 {
-    public class BridgeAction
+    public class BridgeActionRequest
     {
         public ActionType Action { get; set; }
+        
+        public string Data { get; set; }
     }
 }

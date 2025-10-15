@@ -6,6 +6,7 @@ using MessagePack;
 using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WinFormsQtBridge.Plugin.Common.Models;
@@ -20,7 +21,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
 
         private readonly ProjectTreeView _project;
 
-        private Task _serverTask;
+        private Thread _serverTask;
 
         public Func<BridgeActionRequest, string?> OnActionReceived { get; set; }
 
@@ -32,7 +33,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
         public void Start()
         {
             Debug.WriteLine("Starting Server");
-            _serverTask = Task.Run(() =>
+            _serverTask = new Thread(() =>
             {
                 try
                 {
@@ -58,6 +59,9 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
                     _logger?.Error(CultureInfo.InvariantCulture, "Error in ZeroMQ server", ex);
                 }
             });
+            
+            _serverTask.IsBackground = true;
+            _serverTask.Start();
         }
     }
 }

@@ -40,6 +40,9 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
                     while (true)
                     {
                         var requestJson = rep.ReceiveFrameString();
+                        
+                        Debug.WriteLine($"Message received: {requestJson}");
+                        
                         var request = JsonConvert.DeserializeObject<BridgeActionRequest>(requestJson);
                         string? response = null;
 

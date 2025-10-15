@@ -4,8 +4,8 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services.Interfaces
 {
     public interface IWinFormConnectorService
     {
-        WellLogResponse GetSelectedWell();
+        WellLogResponse? GetSelectedWell();
 
-        WellLogResponse SetWell(string data);
+        WellLogResponse? SetWell(string? data);
     }
 }

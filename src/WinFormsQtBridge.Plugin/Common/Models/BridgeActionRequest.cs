@@ -6,6 +6,6 @@ namespace WinFormsQtBridge.Plugin.Common.Models
     {
         public ActionType Action { get; set; }
         
-        public string Data { get; set; }
+        public string? Data { get; set; }
     }
 }

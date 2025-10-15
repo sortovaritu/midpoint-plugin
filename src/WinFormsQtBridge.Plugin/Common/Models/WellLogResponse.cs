@@ -5,7 +5,7 @@ namespace WinFormsQtBridge.Plugin.Common.Models
 {
     public class WellLogResponse
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public double MinVal { get; set; }
 
@@ -15,6 +15,6 @@ namespace WinFormsQtBridge.Plugin.Common.Models
 
         public double MaxMd { get; set; }
 
-        public List<WellLogSample> Log { get; set; }
+        public List<WellLogSample>? Log { get; set; }
     }
 }

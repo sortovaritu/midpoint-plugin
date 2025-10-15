@@ -26,7 +26,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
             };
 
             var process = Process.Start(psi);
-            process.BeginOutputReadLine();
+            process?.BeginOutputReadLine();
         }
     }
 }

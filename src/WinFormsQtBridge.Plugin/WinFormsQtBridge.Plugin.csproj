@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
-            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{3663C471-F9A2-4116-9C69-2C37BC8D6087}</ProjectGuid>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>WinFormsQtBridge.Plugin</RootNamespace>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>WinFormsQtBridge.Plugin</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
+        <RootNamespace>WinFormsQtBridge.Plugin</RootNamespace>
+        <OutputType>Library</OutputType>
+        <PlatformTarget>x64</PlatformTarget>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>x64</PlatformTarget>
@@ -33,45 +31,22 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="IP_Base" HintPath="..\..\lib\IP_Base.dll"/>
-        <Reference Include="IP_Borehhole" HintPath="..\..\lib\IP_Borehhole.dll"/>
-        <Reference Include="IP_Geometry" HintPath="..\..\lib\IP_Geometry.dll"/>
-        <Reference Include="IP_IO" HintPath="..\..\lib\IP_IO.dll"/>
-        <Reference Include="IP_Seismic" HintPath="..\..\lib\IP_Seismic.dll"/>
+        <PackageReference Include="System" />
+        <PackageReference Include="System.Core" />
+        <PackageReference Include="System.Windows.Forms" />
+        <PackageReference Include="NLog" />
+        <PackageReference Include="Newtonsoft.Json" />
+        <PackageReference Include="MessagePack" Version="3.1.4" />
+        <PackageReference Include="NetMQ" Version="4.0.2.2" />
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-          <HintPath>..\..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-        </Reference>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.Xml"/>
-        <Reference Include="System.Windows.Forms"/>
-        <Reference Include="NLog"/>
+        <Reference  Include="IP_Base" HintPath="..\..\lib\IP_Base.dll" />
+        <Reference  Include="IP_Borehhole" HintPath="..\..\lib\IP_Borehhole.dll" />
+        <Reference  Include="IP_Geometry" HintPath="..\..\lib\IP_Geometry.dll" />
+        <Reference  Include="IP_IO" HintPath="..\..\lib\IP_IO.dll" />
+        <Reference  Include="IP_Seismic" HintPath="..\..\lib\IP_Seismic.dll" />
     </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Application\Services\BridgeService.cs" />
-        <Compile Include="Application\Services\Interfaces\IBridgeService.cs" />
-        <Compile Include="BridgePlugin.cs" />
-        <Compile Include="Common\Models\BridgeActionRequest.cs" />
-        <Compile Include="Common\Models\Enums\ActionType.cs" />
-        <Compile Include="Common\Models\WellLogResponse.cs" />
-        <Compile Include="Infrastructure\Services\Interfaces\IPythonAppService.cs" />
-        <Compile Include="Infrastructure\Services\Interfaces\IWinFormConnectorService.cs" />
-        <Compile Include="Infrastructure\Services\Interfaces\IZeroMqServerService.cs" />
-        <Compile Include="Infrastructure\Services\PythonAppService.cs" />
-        <Compile Include="Infrastructure\Services\WinFormConnectorService.cs" />
-        <Compile Include="Infrastructure\Services\ZeroMqServerService.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs"/>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Common\" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets. -->
-    <Target Name="BeforeBuild">
+    <Target Name="BuildPythonScript" BeforeTargets="Build">
         <PropertyGroup>
             <VenvDir>$(ProjectDir)python-script\venv</VenvDir>
             <PythonExe>$(ProjectDir)python-script\venv\Scripts\python.exe</PythonExe>
@@ -80,20 +55,8 @@
             <PythonScript>$(ProjectDir)python-script\main.py</PythonScript>
             <ExeOutputDir>$(ProjectDir)python-script</ExeOutputDir>
         </PropertyGroup>
-
         <Exec Command="py -3.12 -m venv &quot;$(VenvDir)&quot;" />
         <Exec Command="&quot;$(PythonExe)&quot; -m pip install -r &quot;$(Requirements)&quot;" />
         <Exec Command="&quot;$(PyInstallerExe)&quot; --onefile --noconsole --distpath &quot;$(ExeOutputDir)&quot; --workpath &quot;$(ExeOutputDir)\build&quot; --specpath &quot;$(ExeOutputDir)&quot; &quot;$(PythonScript)&quot;" />
     </Target>
-    <Import Project="..\..\packages\MessagePackAnalyzer.3.1.4\build\MessagePackAnalyzer.targets" Condition="Exists('..\..\packages\MessagePackAnalyzer.3.1.4\build\MessagePackAnalyzer.targets')" />
-    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-      <PropertyGroup>
-        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-      </PropertyGroup>
-      <Error Condition="!Exists('..\..\packages\MessagePackAnalyzer.3.1.4\build\MessagePackAnalyzer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MessagePackAnalyzer.3.1.4\build\MessagePackAnalyzer.targets'))" />
-    </Target>
-    <!-- <Target Name="AfterBuild">
-    </Target>
-    -->
-
 </Project>

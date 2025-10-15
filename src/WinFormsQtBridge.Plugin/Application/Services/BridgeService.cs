@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WinFormsQtBridge.Plugin.Application.Services.Interfaces;
 using WinFormsQtBridge.Plugin.Common.Models;
 using WinFormsQtBridge.Plugin.Common.Models.Enums;
@@ -11,11 +10,11 @@ namespace WinFormsQtBridge.Plugin.Application.Services
     {
         private readonly IZeroMqServerService _zeroMqServerService;
         
-        private readonly IPythonAppService _pythonAppService;
+        private readonly IPythonAppService? _pythonAppService;
         
         private readonly IWinFormConnectorService _winFormConnectorService;
         
-        public BridgeService(IZeroMqServerService zeroMqServerService, IPythonAppService pythonAppService, IWinFormConnectorService winFormConnectorService)
+        public BridgeService(IZeroMqServerService zeroMqServerService, IPythonAppService? pythonAppService, IWinFormConnectorService winFormConnectorService)
         {
             _zeroMqServerService = zeroMqServerService;
             _pythonAppService = pythonAppService;
@@ -27,21 +26,17 @@ namespace WinFormsQtBridge.Plugin.Application.Services
         public void Start()
         {
             _zeroMqServerService.Start();
-            _pythonAppService.StartPythonApp();
+            _pythonAppService?.StartPythonApp();
         }
 
-        private string OnActionReceived(BridgeActionRequest actionRequest)
+        private string? OnActionReceived(BridgeActionRequest actionRequest)
         {
-            string json = null;
-            if (actionRequest.Action.Equals(ActionType.GetWellLog))
+            var json = actionRequest.Action switch
             {
-                json = JsonConvert.SerializeObject(_winFormConnectorService.GetSelectedWell());
-            }
-            
-            if (actionRequest.Action.Equals(ActionType.SetWellLog))
-            {
-                json = JsonConvert.SerializeObject(_winFormConnectorService.SetWell(actionRequest.Data));
-            }
+                ActionType.GetWellLog => JsonConvert.SerializeObject(_winFormConnectorService.GetSelectedWell()),
+                ActionType.SetWellLog => JsonConvert.SerializeObject(_winFormConnectorService.SetWell(actionRequest.Data)),
+                _ => null,
+            };
 
             return json;
         }

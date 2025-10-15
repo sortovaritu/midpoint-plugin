@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using IP_Base;
 using IP_Borehole;
 using Newtonsoft.Json;
@@ -12,15 +10,13 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
     public class WinFormConnectorService : IWinFormConnectorService
     {
         private readonly ProjectTreeView _project;
-        
-        private readonly List<WellLog> _allWellLog;
 
         public WinFormConnectorService(ProjectTreeView project)
         {
             _project = project;
         }
         
-        public WellLogResponse GetSelectedWell()
+        public WellLogResponse? GetSelectedWell()
         {
             if (_project.SelectedNode == null)
             {
@@ -52,7 +48,7 @@ namespace WinFormsQtBridge.Plugin.Infrastructure.Services
             return null;
         }
 
-        public WellLogResponse SetWell(string data)
+        public WellLogResponse? SetWell(string? data)
         {
             try
             {
